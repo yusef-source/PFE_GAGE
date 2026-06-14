@@ -1,0 +1,42 @@
+<svg width="100%" viewBox="0 0 680 340" role="img" xmlns="http://www.w3.org/2000/svg" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo GEOPROExpert</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Logo professionnel GEOPROExpert avec un symbole géographique et architectural combiné</desc>
+
+  
+
+  <g transform="translate(340, 155)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+
+    <!-- Pin géolocalisation stylisé -->
+    <circle cx="0" cy="-62" r="28" style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="0" cy="-62" r="18" style="fill:rgb(240, 244, 248);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Bâtiment miniature dans le pin -->
+    <rect x="-7" y="-74" width="14" height="18" rx="1" style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <polygon points="0,-80 -10,-74 10,-74" style="fill:rgb(200, 149, 42);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <rect x="-3" y="-68" width="6" height="8" rx="1" style="fill:rgb(240, 244, 248);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Queue du pin -->
+    <path d="M-8,-34 Q0,-20 8,-34" fill="none" stroke-width="3" stroke-linecap="round" style="stroke:#1B3A5C;fill:none;stroke:rgb(27, 58, 92);color:rgb(0, 0, 0);stroke-width:3px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <circle cx="0" cy="-17" r="3" style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <!-- Lignes de coordonnées stylisées autour du pin -->
+    <line x1="-50" y1="-62" x2="-32" y2="-62" stroke-width="1" stroke-dasharray="3,3" style="stroke:#C8952A;fill:rgb(0, 0, 0);stroke:rgb(200, 149, 42);color:rgb(0, 0, 0);stroke-width:1px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto" opacity="0.7"/>
+    <line x1="32" y1="-62" x2="50" y2="-62" stroke-width="1" stroke-dasharray="3,3" style="stroke:#C8952A;fill:rgb(0, 0, 0);stroke:rgb(200, 149, 42);color:rgb(0, 0, 0);stroke-width:1px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto" opacity="0.7"/>
+    <line x1="0" y1="-100" x2="0" y2="-94" stroke-width="1" stroke-dasharray="3,3" style="stroke:#C8952A;fill:rgb(0, 0, 0);stroke:rgb(200, 149, 42);color:rgb(0, 0, 0);stroke-width:1px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.7;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto" opacity="0.7"/>
+
+    <!-- Ligne séparatrice -->
+    <line x1="-110" y1="8" x2="110" y2="8" stroke-width="0.8" opacity="0.3" style="stroke:#1B3A5C;fill:rgb(0, 0, 0);stroke:rgb(27, 58, 92);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.3;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+    <!-- Nom principal -->
+    <text x="0" y="38" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="700" letter-spacing="2" style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:26px;font-weight:700;text-anchor:middle;dominant-baseline:auto">
+      <tspan style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:26px;font-weight:700;text-anchor:middle;dominant-baseline:auto">GEO</tspan><tspan style="fill:rgb(200, 149, 42);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:26px;font-weight:700;text-anchor:middle;dominant-baseline:auto">PRO</tspan><tspan style="fill:rgb(27, 58, 92);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:26px;font-weight:700;text-anchor:middle;dominant-baseline:auto">Expert</tspan>
+    </text>
+
+    <!-- Sous-titre -->
+    <text x="0" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="9" font-weight="400" letter-spacing="5" style="fill:rgb(122, 155, 181);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:9px;font-weight:400;text-anchor:middle;dominant-baseline:auto">EXPERTISE IMMOBILIÈRE &amp; GÉOSPATIALE</text>
+
+    <!-- Décoration basse -->
+    <line x1="-80" y1="68" x2="-20" y2="68" stroke-width="0.7" style="stroke:#C8952A;fill:rgb(0, 0, 0);stroke:rgb(200, 149, 42);color:rgb(0, 0, 0);stroke-width:0.7px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <rect x="-4" y="65" width="8" height="6" rx="1" style="fill:rgb(200, 149, 42);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <line x1="20" y1="68" x2="80" y2="68" stroke-width="0.7" style="stroke:#C8952A;fill:rgb(0, 0, 0);stroke:rgb(200, 149, 42);color:rgb(0, 0, 0);stroke-width:0.7px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  </g>
+</svg>

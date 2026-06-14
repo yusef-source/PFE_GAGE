@@ -1,0 +1,38 @@
+.map-status-bar {
+  position:absolute;
+  right: 500px;
+  bottom: 0px;
+  z-index: 9999;
+  min-height: 38px;
+  background: rgba(15, 23, 32, 0.92);
+  color: #e5e7eb;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 22px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  backdrop-filter: blur(6px);
+}
+
+.map-status-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.map-status-icon {
+  color: #38bdf8;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.map-status-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(148, 163, 184, 0.35);
+}

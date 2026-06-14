@@ -1,0 +1,241 @@
+.simulator-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(2, 6, 23, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simulator-modal {
+  width: 980px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #0f1720;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.55);
+  color: #e5e7eb;
+  font-family: Arial, sans-serif;
+}
+
+.simulator-header {
+  height: 72px;
+  padding: 0 22px;
+  background: #111827;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.simulator-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.simulator-header p {
+  margin: 5px 0 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.simulator-header button {
+  width: 34px;
+  height: 34px;
+  background: #1f2937;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.simulator-grid {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.simulator-panel {
+  background: #152333;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.simulator-panel h3 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: #7dd3fc;
+}
+
+.simulator-panel label {
+  display: block;
+  margin: 12px 0 6px;
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.simulator-panel select,
+.simulator-panel input[type="range"] {
+  width: 100%;
+}
+
+.simulator-panel select {
+  height: 36px;
+  background: #0f1720;
+  color: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  padding: 0 10px;
+}
+
+.simulator-note {
+  margin-top: 14px;
+  padding: 10px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 8px;
+  color: #9bdff0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.simulator-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+  font-size: 13px;
+}
+
+.simulator-row:last-child {
+  border-bottom: none;
+}
+
+.simulator-row span {
+  color: #9ca3af;
+}
+
+.simulator-row strong {
+  color: #ffffff;
+  text-align: right;
+}
+
+.simulator-results {
+  background: linear-gradient(135deg, #152333, #0f1720);
+}
+
+.simulator-kpi {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.simulator-kpi span {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.simulator-kpi strong {
+  color: #facc15;
+  font-size: 15px;
+  text-align: right;
+}
+
+.simulator-kpi.main strong {
+  color: #22c55e;
+  font-size: 18px;
+}
+
+
+
+.simulator-chart-panel {
+  min-height: 300px;
+}
+
+.simulator-chart {
+  width: 100%;
+  height: 220px;
+}
+
+.simulator-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.simulator-chart-legend div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.simulator-chart-legend span {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.recharts-tooltip-wrapper {
+  z-index: 999999 !important;
+}
+
+
+.simulator-chart-panel {
+  min-height: 300px;
+}
+
+.simulator-grid {
+  align-items: start;
+}
+
+
+.simulator-layout {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.simulator-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.simulator-panel {
+  align-self: stretch;
+}
+
+
+.simulator-decision {
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.simulator-decision-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.simulator-decision-message {
+  color: #e5e7eb;
+  font-size: 13px;
+  line-height: 1.5;
+}

@@ -1,0 +1,265 @@
+.parcelle-popup-wrapper .leaflet-popup-content-wrapper {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-content {
+  margin: 0;
+  width: 400px !important;
+  max-height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-tip {
+  background: #0f1720;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  top: 8px !important;
+  right: 10px !important;
+  z-index: 10;
+}
+
+.parcelle-popup {
+  width: 320px;
+  background: #0f1720;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 10px;
+  padding: 14px;
+  color: #e5e7eb;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.popup-title-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  background: rgba(250, 204, 21, 0.08);
+  color: #facc15;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.popup-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.popup-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.popup-score-badge {
+  min-width: 54px;
+  height: 42px;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+  border-radius: 22px;
+  display: grid;
+  grid-template-columns: 8px 1fr;
+  grid-template-rows: 20px 14px;
+  align-items: center;
+  justify-items: center;
+  padding: 3px 8px;
+}
+
+.popup-score-badge span {
+  width: 7px;
+  height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  grid-row: 1 / 3;
+}
+
+.popup-score-badge strong {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.popup-score-badge small {
+  font-size: 10px;
+  color: inherit;
+opacity: 0.85;
+  line-height: 1;
+}
+
+.popup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.popup-info-card {
+  background: #152333;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.popup-info-card-full {
+  grid-column: 1 / 3;
+}
+
+.popup-info-card span {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.popup-info-card strong {
+  display: block;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.popup-info-card:first-child strong {
+  color: #facc15;
+}
+
+.popup-score-section {
+  margin-top: 14px;
+}
+
+.popup-score-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.popup-score-line span {
+  color: #94a3b8;
+}
+
+.popup-score-line strong {
+  color: #22c55e;
+}
+
+.popup-score-bar {
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    #ef4444 0%,
+    #f97316 25%,
+    #facc15 50%,
+    #22c55e 75%,
+    #166534 100%
+  );
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-score-fill {
+  height: 100%;
+  border-right: 2px solid #ffffff;
+}
+
+.popup-score-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 9px;
+  color: #64748b;
+}
+
+.popup-price-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.popup-section-title {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.popup-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+.popup-price-row span {
+  color: #7dd3fc;
+}
+
+.popup-price-row strong {
+  color: #facc15;
+  font-weight: 700;
+}
+
+.popup-price-row strong:contains("N/A") {
+  color: #64748b;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.popup-actions button {
+  flex: 1;
+  height: 30px;
+  background: #111827;
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.popup-actions button:hover {
+  background: #1f2937;
+  color: #ffffff;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-content::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+.parcelle-popup-wrapper .leaflet-popup-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
