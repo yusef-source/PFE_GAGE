@@ -103,6 +103,17 @@ function Legend({ layers, heatmapField }) {
     borderRadius: "4px",
   });
 
+  const parcelBoundary = {
+  width: 18,
+  height: 12,
+  display: "inline-block",
+  marginRight: 7,
+  verticalAlign: "middle",
+  border: "2px solid #ffffff",
+  background: "transparent",
+  borderRadius: "2px",
+};
+
   const tramStationSymbol = {
     width: 20,
     height: 20,
@@ -143,6 +154,17 @@ function Legend({ layers, heatmapField }) {
 
       {!collapsed && (
         <div className="legend-scroll" style={contentStyle}>
+
+          {layers?.parcellesContour && (
+  <div>
+    <strong style={titleStyle}>Limites parcelles</strong>
+    <div>
+      <span style={parcelBoundary}></span>
+      Contours des parcelles
+    </div>
+  </div>
+)}
+
           {layers?.parcelles && (
             <div>
               <strong style={titleStyle}>Score AMC</strong>

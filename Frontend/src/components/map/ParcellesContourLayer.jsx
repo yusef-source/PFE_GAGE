@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { GeoJSON } from "react-leaflet";
+import { GeoJSON, useMap } from "react-leaflet";
 import { getParcelles } from "../../services/parcellesService";
 
 function ParcellesContourLayer({ interactionDisabled = false }) {
+  const map = useMap();
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -37,6 +38,28 @@ function ParcellesContourLayer({ interactionDisabled = false }) {
       }}
       onEachFeature={(feature, layer) => {
         const p = feature.properties;
+
+        layer.on("click", (e) => {
+  if (interactionDisabled) return;
+
+  e.originalEvent.preventDefault();
+  e.originalEvent.stopPropagation();
+
+  const bounds = layer.getBounds();
+
+  if (bounds.isValid()) {
+    map.fitBounds(bounds, {
+      paddingTopLeft: [40, 120],
+      paddingBottomRight: [40, 60],
+      maxZoom: 19,
+      animate: true,
+    });
+  }
+
+  layer.openPopup();
+});
+
+        
 
         layer.bindPopup(`
           <strong>Parcelle ${p.gid}</strong><br/>

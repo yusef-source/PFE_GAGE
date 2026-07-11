@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CircleMarker, Popup, Tooltip, useMap } from "react-leaflet";
+import L from "leaflet";
 import { getParcelles } from "../../services/parcellesService";
 
 function getGeometryCenter(geometry) {
@@ -32,25 +33,35 @@ function getGeometryCenter(geometry) {
 }
 
 function PrixCentroidLayer({ heatmapField }) {
-    const map = useMap();
-
+  const map = useMap();
   const [points, setPoints] = useState([]);
 
+  // Important : forcer cette couche en SVG pour ne pas bloquer les clics des autres couches
+  const priceRenderer = useMemo(() => {
+    return L.svg({
+      pane: "priceCentroidPane",
+    });
+  }, []);
+
   useEffect(() => {
-  if (!map.getPane("priceCentroidPane")) {
-    const pane = map.createPane("priceCentroidPane");
+    let pane = map.getPane("priceCentroidPane");
+
+    if (!pane) {
+      pane = map.createPane("priceCentroidPane");
+    }
+
+    // Points prix au-dessus de la heatmap
     pane.style.zIndex = 650;
-  }
+    pane.style.pointerEvents = "auto";
 
-  // Forcer les popups au-dessus des points
-  if (map.getPane("popupPane")) {
-    map.getPane("popupPane").style.zIndex = 1000;
-  }
+    if (map.getPane("popupPane")) {
+      map.getPane("popupPane").style.zIndex = 1000;
+    }
 
-  if (map.getPane("tooltipPane")) {
-    map.getPane("tooltipPane").style.zIndex = 1001;
-  }
-}, [map]);
+    if (map.getPane("tooltipPane")) {
+      map.getPane("tooltipPane").style.zIndex = 1001;
+    }
+  }, [map]);
 
   useEffect(() => {
     getParcelles()
@@ -122,15 +133,25 @@ function PrixCentroidLayer({ heatmapField }) {
     <>
       {points.map((point) => (
         <CircleMarker
-  key={point.id}
-  pane="priceCentroidPane"
-  center={[point.lat, point.lng]}
-  radius={5}
+          key={point.id}
+          pane="priceCentroidPane"
+          renderer={priceRenderer}
+          center={[point.lat, point.lng]}
+          radius={5}
+          interactive={true}
+          bubblingMouseEvents={false}
           pathOptions={{
             color: "#111827",
             weight: 1,
             fillColor: point.color,
             fillOpacity: 0.9,
+          }}
+          eventHandlers={{
+            click: (e) => {
+              e.originalEvent.preventDefault();
+              e.originalEvent.stopPropagation();
+              e.target.openPopup();
+            },
           }}
         >
           <Popup>

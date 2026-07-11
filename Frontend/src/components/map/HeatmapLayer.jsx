@@ -38,17 +38,9 @@ function HeatmapLayer({ heatmapField }) {
   const heatLayerRef = useRef(null);
 
   useEffect(() => {
-  if (!map.getPane("heatmapPane")) {
-    const pane = map.createPane("heatmapPane");
-    pane.style.zIndex = 620;
-    pane.style.pointerEvents = "none";
-  }
-}, [map]);
-
-  useEffect(() => {
     let isCancelled = false;
 
-    // supprimer ancienne heatmap avant d'en créer une nouvelle
+    // Supprimer l'ancienne heatmap avant d'en créer une nouvelle
     if (heatLayerRef.current) {
       map.removeLayer(heatLayerRef.current);
       heatLayerRef.current = null;
@@ -58,69 +50,67 @@ function HeatmapLayer({ heatmapField }) {
       .then((res) => {
         if (isCancelled) return;
 
-        const features = res.data.features;
+        const features = res.data?.features || [];
 
         const values = features
-  .map((f) => Number(f.properties[heatmapField]))
-  .filter((v) => !isNaN(v) && v > 0);
+          .map((f) => Number(f.properties?.[heatmapField]))
+          .filter((v) => !isNaN(v) && v > 0);
 
-if (values.length === 0) return;
+        if (values.length === 0) return;
 
-const sortedValues = [...values].sort((a, b) => a - b);
+        const sortedValues = [...values].sort((a, b) => a - b);
 
-const getPercentile = (arr, p) => {
-  const index = Math.floor((p / 100) * (arr.length - 1));
-  return arr[index];
-};
+        const getPercentile = (arr, p) => {
+          const index = Math.floor((p / 100) * (arr.length - 1));
+          return arr[index];
+        };
 
-// On ignore les extrêmes trop faibles/trop forts
-const minValue = getPercentile(sortedValues, 5);
-const maxValue = getPercentile(sortedValues, 95);
+        const minValue = getPercentile(sortedValues, 5);
+        const maxValue = getPercentile(sortedValues, 95);
 
-console.log("Champ heatmap :", heatmapField);
-console.log("Min percentile 5% :", minValue);
-console.log("Max percentile 95% :", maxValue);
+        console.log("Champ heatmap :", heatmapField);
+        console.log("Min percentile 5% :", minValue);
+        console.log("Max percentile 95% :", maxValue);
 
-const points = features
-  .map((feature) => {
-    const center = getGeometryCenter(feature.geometry);
-    const value = Number(feature.properties[heatmapField]);
+        const points = features
+          .map((feature) => {
+            const center = getGeometryCenter(feature.geometry);
+            const value = Number(feature.properties?.[heatmapField]);
 
-    if (!center || isNaN(value) || value <= 0) return null;
+            if (!center || isNaN(value) || value <= 0) return null;
 
-    let normalized =
-      maxValue === minValue
-        ? 0.5
-        : (value - minValue) / (maxValue - minValue);
+            let normalized =
+              maxValue === minValue
+                ? 0.5
+                : (value - minValue) / (maxValue - minValue);
 
-    // Bloquer entre 0 et 1
-    normalized = Math.max(0, Math.min(normalized, 1));
+            normalized = Math.max(0, Math.min(normalized, 1));
 
-    // Correction douce : garde bleu/vert/jaune/rouge visibles
-    const intensity = Math.pow(normalized, 1.15);
+            const intensity = Math.pow(normalized, 1.15);
 
-    return [center.lat, center.lng, intensity];
-  })
-  .filter(Boolean);
+            return [center.lat, center.lng, intensity];
+          })
+          .filter(Boolean);
 
-const heatLayer = L.heatLayer(points, {
-  pane: "heatmapPane",
-  radius: 18,
-  blur: 16,
-  maxZoom: 18,
-  minOpacity: 0.22,
-  max: 1.8,
-  gradient: {
-    0.0: "#2563eb",  // bleu
-    0.25: "#22c55e", // vert
-    0.55: "#facc15", // jaune
-    0.8: "#f97316",  // orange
-    1.0: "#ef4444",  // rouge
-  },
-});
+        if (points.length === 0) return;
 
-heatLayer.addTo(map);
-heatLayerRef.current = heatLayer;
+        const heatLayer = L.heatLayer(points, {
+          radius: 18,
+          blur: 16,
+          maxZoom: 18,
+          minOpacity: 0.22,
+          max: 1.8,
+          gradient: {
+            0.0: "#2563eb",
+            0.25: "#22c55e",
+            0.55: "#facc15",
+            0.8: "#f97316",
+            1.0: "#ef4444",
+          },
+        });
+
+        heatLayer.addTo(map);
+        heatLayerRef.current = heatLayer;
       })
       .catch((err) => {
         console.error("Erreur chargement heatmap:", err);

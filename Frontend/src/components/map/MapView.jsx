@@ -4,6 +4,7 @@ import Legend from "./Legend";
 import { MapContainer, TileLayer, GeoJSON, useMap, Marker, Popup,Polyline, Polygon,
 CircleMarker, Tooltip, useMapEvents, WMSTileLayer } from "react-leaflet";
 import ParcellesLayer from "./ParcellesLayer";
+import ParcellePopup from "./ParcellePopup";
 import VoirieLayer from "./VoirieLayer";
 import TramLayer from "./TramLayer";
 import BusLayer from "./BusLayer";
@@ -15,8 +16,7 @@ import PrixCentroidLayer from "./PrixCentroidLayer";
 import SearchBar from "./SearchBar";
 import SearchParcelHighlight from "./SearchParcelHighlight";
 
-import { getParcelles } from "../../services/parcellesService";
-
+import { getParcelles, getParcelleAtPoint } from "../../services/parcellesService";
 import L from "leaflet";
 import MapStatusBar from "./MapStatusBar";
 import InvestmentSimulatorModal from "./InvestmentSimulatorModal";
@@ -27,7 +27,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import { exportMapPdf } from "../../utils/exportMapPdf";
+import { generateParcellePdf } from "../../utils/generateParcellePdf";
 import StationsTramLayer from "./StationsTramLayer";
+
 
 function AutoZoomExternalLayer({ externalLayers }) {
   const map = useMap();
@@ -49,6 +51,53 @@ function AutoZoomExternalLayer({ externalLayers }) {
       });
     }
   }, [externalLayers, map]);
+
+  return null;
+}
+
+function ParcelleWmsClickHandler({ disabled, onParcelFound }) {
+  const map = useMapEvents({
+    click: async (e) => {
+      if (disabled) return;
+
+      // Empêcher les clics dans le popup Leaflet de relancer un clic carte
+      const target = e.originalEvent?.target;
+      if (
+        target?.closest?.(".leaflet-popup") ||
+        target?.closest?.(".parcelle-popup")
+      ) {
+        return;
+      }
+
+      try {
+        const { lat, lng } = e.latlng;
+        const res = await getParcelleAtPoint(lat, lng);
+
+        if (!res.data) return;
+
+        const feature = res.data;
+
+        onParcelFound(feature, e.latlng);
+
+        if (feature.geometry) {
+          const layer = L.geoJSON(feature);
+          const bounds = layer.getBounds();
+
+          if (bounds.isValid()) {
+           map.fitBounds(bounds, {
+  paddingTopLeft: [40, 120],
+  paddingBottomRight: [40, 60],
+  maxZoom: 19,
+  animate: true,
+});
+          }
+        }
+      } catch (error) {
+        console.error("Erreur clic parcelle WMS:", error);
+        toast.error("Erreur lors de la récupération de la parcelle.");
+      }
+    },
+  });
 
   return null;
 }
@@ -1025,9 +1074,33 @@ function SelectionRectangleTool({
   return null;
 }
 
+function MapPanes() {
+  const map = useMap();
 
+  useEffect(() => {
+    if (!map.getPane("scoreWmsPane")) {
+      const scorePane = map.createPane("scoreWmsPane");
+      scorePane.style.zIndex = 350;
+      scorePane.style.pointerEvents = "none";
+    }
 
+    if (!map.getPane("highlightPane")) {
+      const highlightPane = map.createPane("highlightPane");
+      highlightPane.style.zIndex = 650;
+      highlightPane.style.pointerEvents = "none";
+    }
 
+    if (map.getPane("popupPane")) {
+      map.getPane("popupPane").style.zIndex = 1000;
+    }
+
+    if (map.getPane("tooltipPane")) {
+      map.getPane("tooltipPane").style.zIndex = 1001;
+    }
+  }, [map]);
+
+  return null;
+}
 
 
 
@@ -1063,9 +1136,9 @@ const handleBackHome = () => {
   const [filters, setFilters] = useState(defaultFilters);
   const [draftFilters, setDraftFilters] = useState(defaultFilters);
 
- const [layers, setLayers] = useState({
-  parcelles: true,
-  parcellesContour: false,
+const [layers, setLayers] = useState({
+  parcelles: false,
+  parcellesContour: true,
   voirie: false,
   tram: false,
   stationsTram: false,
@@ -1075,6 +1148,10 @@ const handleBackHome = () => {
   heatmap: false,
   prixCentroid: false,
 });
+
+const [wmsPopupParcel, setWmsPopupParcel] = useState(null);
+const [wmsPopupPosition, setWmsPopupPosition] = useState(null);
+
 const [heatmapField, setHeatmapField] = useState("prix_app_final");
 
 const [externalLayers, setExternalLayers] = useState([]);
@@ -1132,6 +1209,55 @@ useEffect(() => {
 }, [selectedFeatures]);
 const handleSearchCoordinates = ({ lat, lng }) => {
   setSearchPoint({ lat, lng });
+};
+
+const handleWmsParcelFound = (feature, latlng) => {
+  setWmsPopupParcel(feature);
+  setWmsPopupPosition(latlng);
+};
+
+const closeWmsPopup = () => {
+  setWmsPopupParcel(null);
+  setWmsPopupPosition(null);
+};
+
+const handleWmsPdf = () => {
+  try {
+    const p = wmsPopupParcel?.properties;
+    if (!p) return;
+
+    generateParcellePdf(p);
+    toast.success("Rapport PDF généré avec succès.");
+  } catch (error) {
+    console.error("Erreur génération PDF :", error);
+    toast.error("Erreur lors de la génération du rapport PDF.");
+  }
+};
+
+const handleWmsCompare = () => {
+  const p = wmsPopupParcel?.properties;
+  if (!p) return;
+
+  window.dispatchEvent(
+    new CustomEvent("add-parcelle-compare", {
+      detail: p,
+    })
+  );
+
+  closeWmsPopup();
+};
+
+const handleWmsSimulate = () => {
+  const p = wmsPopupParcel?.properties;
+  if (!p) return;
+
+  window.dispatchEvent(
+    new CustomEvent("open-investment-simulator", {
+      detail: p,
+    })
+  );
+
+  closeWmsPopup();
 };
 
 const handleSearchTF = async (tf) => {
@@ -1392,7 +1518,9 @@ if (prev.length >= 4) {
   return prev;
 }
 
-toast.success("Parcelle ajoutée au comparateur.");
+toast.success("Parcelle ajoutée au comparateur.", {
+  id: "parcelle-added-compare",
+});
 
 return [...prev, parcelle];
     });
@@ -1839,6 +1967,12 @@ const selectByRectangle = (rectangleLatLngs, append = false) => {
 >
         <DrawPane />
         <MapStatusBar setScaleText={setScaleText}  />
+        <MapPanes />
+
+        <ParcelleWmsClickHandler
+  disabled={mapToolActive || selectionMode || !layers.parcelles}
+  onParcelFound={handleWmsParcelFound}
+/>
 
 <SelectionRectangleTool
   selectionMode={selectionMode}
@@ -2217,8 +2351,11 @@ eventHandlers={{
 
        
 
-        {layers.heatmap && (
-  <HeatmapLayer heatmapField={heatmapField} />
+       {layers.heatmap && (
+  <HeatmapLayer
+    heatmapField={heatmapField}
+  
+  />
 )}
 
 {layers.prixCentroid && (
@@ -2228,7 +2365,9 @@ eventHandlers={{
         {layers.parcellesContour && (
   <ParcellesContourLayer interactionDisabled={mapToolActive} />
 )}
-        
+        {/* Ancienne couche GeoJSON Score AMC — conservée en secours */}
+
+        {/*
         {layers.parcelles && (
 
     <ParcellesLayer
@@ -2241,10 +2380,69 @@ eventHandlers={{
   toggleSelectedFeature={toggleSelectedFeature}
   isFeatureSelected={isFeatureSelected}
 />
-        )}
-        
+        )}   
+*/}
 
-        {layers.voirie && <VoirieLayer onDataLoaded={setVoirieData} />}
+{layers.parcelles && (
+  <WMSTileLayer
+    pane="scoreWmsPane"
+    url="http://localhost:8080/geoserver/projetwebmap/wms"
+    layers="projetwebmap:v_parcelles_score_amc_wms"
+    styles="parcelles_score_amc"
+    format="image/png"
+    transparent={true}
+    version="1.1.0"
+    tiled={true}
+    opacity={0.85}
+    minZoom={12}
+    maxZoom={22}
+    maxNativeZoom={22}
+  />
+)}
+
+
+{wmsPopupParcel && (
+  <GeoJSON
+    key={`highlight-wms-${wmsPopupParcel.properties?.gid}`}
+    data={wmsPopupParcel}
+    pane="highlightPane"
+    interactive={false}
+    style={{
+      color: "#00e5ff",
+      weight: 4,
+      fillColor: "#00e5ff",
+      fillOpacity: 0.25,
+      dashArray: "6, 4",
+    }}
+  />
+)}
+
+
+{wmsPopupParcel && wmsPopupPosition && (
+<Popup
+  position={wmsPopupPosition}
+  className="geoproexpert-parcelle-popup"
+  maxWidth={430}
+  minWidth={390}
+  closeButton={true}
+  autoPan={true}
+  keepInView={true}
+  autoPanPaddingTopLeft={[40, 120]}
+  autoPanPaddingBottomRight={[40, 60]}
+  offset={[0, -12]}
+  onClose={closeWmsPopup}
+>
+  <ParcellePopup
+    properties={wmsPopupParcel.properties}
+    onPdf={handleWmsPdf}
+    onCompare={handleWmsCompare}
+    onSimulate={handleWmsSimulate}
+    onClose={closeWmsPopup}
+  />
+</Popup>
+)}
+
+{layers.voirie && <VoirieLayer onDataLoaded={setVoirieData} />}
 
         {layers.tram && <TramLayer />}  
         {layers.stationsTram && <StationsTramLayer />}

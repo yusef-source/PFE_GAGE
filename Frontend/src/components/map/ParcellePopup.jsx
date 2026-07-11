@@ -1,7 +1,14 @@
 import "./ParcellePopup.css";
 
-function ParcellePopup({ properties }) {
-  const p = properties || {};
+function ParcellePopup({
+  properties,
+  feature,
+  onPdf,
+  onCompare,
+  onSimulate,
+  onClose,
+}) {
+  const p = properties || feature?.properties || {};
 
   const formatNumber = (value, decimals = 0) => {
     if (value === null || value === undefined || value === "") return "N/A";
@@ -16,7 +23,12 @@ function ParcellePopup({ properties }) {
   };
 
   const formatPrice = (value) => {
-    if (value === null || value === undefined || value === "" || Number(value) <= 0) {
+    if (
+      value === null ||
+      value === undefined ||
+      value === "" ||
+      Number(value) <= 0
+    ) {
       return "N/A";
     }
 
@@ -36,15 +48,15 @@ function ParcellePopup({ properties }) {
   };
 
   const getScoreColor = (s) => {
-  if (isNaN(s)) return "#9ca3af";
-  if (s >= 0.75) return "#17783c"; // très élevé
-  if (s >= 0.65) return "#22c55e"; // élevé
-  if (s >= 0.55) return "#facc15"; // moyen
-  if (s >= 0.45) return "#f87d25"; // faible
-  return "#ef4444"; // très faible
-};
+    if (isNaN(s)) return "#9ca3af";
+    if (s >= 0.75) return "#17783c";
+    if (s >= 0.65) return "#22c55e";
+    if (s >= 0.55) return "#facc15";
+    if (s >= 0.45) return "#f87d25";
+    return "#ef4444";
+  };
 
-const scoreColor = getScoreColor(score);
+  const scoreColor = getScoreColor(score);
 
   const getScorePercent = (s) => {
     if (isNaN(s)) return 0;
@@ -62,18 +74,18 @@ const scoreColor = getScoreColor(score);
           </div>
         </div>
 
-       <div
-  className="popup-score-badge"
-  style={{
-    borderColor: `${scoreColor}66`,
-    background: `${scoreColor}18`,
-    color: scoreColor,
-  }}
->
-  <span style={{ background: scoreColor }}></span>
-  <strong>{scoreText}</strong>
-  <small>AMC</small>
-</div>
+        <div
+          className="popup-score-badge"
+          style={{
+            borderColor: `${scoreColor}66`,
+            background: `${scoreColor}18`,
+            color: scoreColor,
+          }}
+        >
+          <span style={{ background: scoreColor }}></span>
+          <strong>{scoreText}</strong>
+          <small>AMC</small>
+        </div>
       </div>
 
       <div className="popup-grid">
@@ -154,11 +166,63 @@ const scoreColor = getScoreColor(score);
         </div>
       </div>
 
-     <div className="popup-actions">
-  <button data-action="pdf" data-gid={p.gid}>Rapport PDF</button>
-  <button data-action="compare" data-gid={p.gid}>Comparer</button>
-  <button data-action="simulate" data-gid={p.gid}>Simuler</button>
-  <button data-action="close">×</button>
+<div
+  className="popup-actions"
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }}
+>
+  <button
+    type="button"
+    data-action="pdf"
+    data-gid={p.gid}
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onPdf?.(p);
+    }}
+  >
+    Rapport PDF
+  </button>
+
+  <button
+    type="button"
+    data-action="compare"
+    data-gid={p.gid}
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onCompare?.(p);
+    }}
+  >
+    Comparer
+  </button>
+
+  <button
+    type="button"
+    data-action="simulate"
+    data-gid={p.gid}
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onSimulate?.(p);
+    }}
+  >
+    Simuler
+  </button>
+
+  <button
+    type="button"
+    data-action="close"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onClose?.();
+    }}
+  >
+    ×
+  </button>
 </div>
     </div>
   );

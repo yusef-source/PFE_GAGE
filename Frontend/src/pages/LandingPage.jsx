@@ -28,17 +28,18 @@ export default function LandingPage() {
           </span>
         </div>
         <div className="lp-nav-links">
-          <a href="#features">Fonctionnalités</a>
-          <a href="#how-it-works">Comment ça marche</a>
-          <a href="#about">À propos</a>
-          <button className="lp-btn-login" onClick={() => navigate("/login")}>
-            Connexion
-          </button>
-        </div>
+  <a href="#accueil">Accueil</a>
+  <a href="#features">Fonctionnalités</a>
+  <a href="#how-it-works">Comment ça marche</a>
+  <a href="#about">À propos</a>
+  <button className="lp-btn-login" onClick={() => navigate("/login")}>
+    Connexion
+  </button>
+</div>
       </nav>
 
       {/* ── HERO ── */}
-      <section className="lp-hero">
+      <section className="lp-hero" id="accueil">
   <div className="lp-hero-inner">
     <div className="lp-hero-content">
       <div className="lp-hero-badge">Plateforme web SIG</div>
@@ -344,18 +345,18 @@ export default function LandingPage() {
         <div className="lp-about-content">
           <div className="lp-about-text">
             <span className="lp-section-badge">À propos</span>
-            <h2>Une plateforme conçue pour les experts</h2>
+            <h2>Une plateforme au service de l’expertise immobilière</h2>
             <p>
-              GEOPROExpert est une plateforme web SIG dédiée à l'expertise
-              foncière et immobilière. Elle combine les outils de cartographie
-              professionnelle avec des modèles d'évaluation multicritères pour
-              accompagner les experts dans leurs missions.
+            GEOPROExpert s’adresse aux urbanistes de l’Agence Urbaine de Casablanca,
+  aux experts fonciers et aux promoteurs immobiliers. Elle permet d’appuyer
+  l’estimation de la valeur vénale parcellaire à travers la visualisation, la comparaison, l’analyse des données cadastrales, urbanistiques,
+  économiques et spatiales.
             </p>
             <ul className="lp-about-list">
               <li>✓ Données parcellaires géoréférencées</li>
               <li>✓ Scores AMC et prix au m² intégrés</li>
               <li>✓ Simulateur d'investissement immobilier</li>
-              <li>✓ Table attributaire et comparaison de parcelles</li>
+              <li>✓ Table attributaire et comparaison de parcelles et bien d'autres ...</li>
             </ul>
           </div>
           <div className="lp-about-visual">
