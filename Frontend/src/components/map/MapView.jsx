@@ -1105,6 +1105,51 @@ function MapPanes() {
 
 
 
+function escapeCql(value) {
+  return String(value).replace(/'/g, "''");
+}
+
+function buildParcellesCqlFilter(filters) {
+  const conditions = [];
+
+  if (filters.prixMax && Number(filters.prixMax) < 20000) {
+    conditions.push(`prix_app_final <= ${Number(filters.prixMax)}`);
+  }
+
+  if (filters.surfaceMax && Number(filters.surfaceMax) < 10000) {
+    conditions.push(`surface <= ${Number(filters.surfaceMax)}`);
+  }
+
+  if (filters.scoreMin && Number(filters.scoreMin) > 0) {
+    conditions.push(`score_final_amc >= ${Number(filters.scoreMin)}`);
+  }
+
+  if (filters.facadeMax && Number(filters.facadeMax) < 4) {
+    conditions.push(`facade <= ${Number(filters.facadeMax)}`);
+  }
+
+  if (filters.quartier) {
+    conditions.push(`quartier = '${escapeCql(filters.quartier)}'`);
+  }
+
+if (filters.zonage && filters.zonage.trim() !== "") {
+  const zonageValue = escapeCql(filters.zonage.trim());
+ conditions.push(`secteur LIKE '%${zonageValue}%'`);
+}
+
+  if (filters.hauteurMx) {
+    conditions.push(`hauteur_mx = '${escapeCql(filters.hauteurMx)}'`);
+  }
+
+  if (filters.nature) {
+    conditions.push(`nature = '${escapeCql(filters.nature)}'`);
+  }
+
+  return conditions.length > 0 ? conditions.join(" AND ") : "INCLUDE";
+}
+
+
+
 
 function MapView() {
 
@@ -1155,6 +1200,160 @@ const [wmsPopupPosition, setWmsPopupPosition] = useState(null);
 const [heatmapField, setHeatmapField] = useState("prix_app_final");
 
 const [externalLayers, setExternalLayers] = useState([]);
+
+const parcellesCqlFilter = useMemo(() => {
+  return buildParcellesCqlFilter(filters);
+}, [filters]);
+
+
+
+
+
+useEffect(() => {
+  getParcelles()
+    .then((res) => {
+      const features = res.data?.features || [];
+      setTotalCount(features.length);
+
+      const filteredFeatures = features.filter((feature) => {
+        const p = feature.properties || {};
+
+        const prixApp = Number(p.prix_app_final);
+        const surface = Number(p.surface);
+        const score = Number(p.score_final_amc);
+        const facade = Number(p.facade);
+
+        const matchesPrix =
+          !filters.prixMax ||
+          Number(filters.prixMax) >= 20000 ||
+          (!isNaN(prixApp) && prixApp <= Number(filters.prixMax));
+
+        const matchesSurface =
+          !filters.surfaceMax ||
+          Number(filters.surfaceMax) >= 10000 ||
+          (!isNaN(surface) && surface <= Number(filters.surfaceMax));
+
+        const matchesScore =
+          !filters.scoreMin ||
+          Number(filters.scoreMin) <= 0 ||
+          (!isNaN(score) && score >= Number(filters.scoreMin));
+
+        const matchesFacade =
+          !filters.facadeMax ||
+          Number(filters.facadeMax) >= 4 ||
+          (!isNaN(facade) && facade <= Number(filters.facadeMax));
+
+        const matchesQuartier =
+          !filters.quartier ||
+          String(p.quartier ?? "")
+            .trim()
+            .toUpperCase()
+            .includes(String(filters.quartier).trim().toUpperCase());
+
+        // Important : AM4, E3sr, E2sr... sont dans le champ secteur
+        const matchesZonage =
+          !filters.zonage ||
+          String(p.secteur ?? "")
+            .trim()
+            .toUpperCase()
+            .includes(String(filters.zonage).trim().toUpperCase());
+
+        const matchesHauteur =
+          !filters.hauteurMx ||
+          String(p.hauteur_mx ?? "")
+            .trim()
+            .toUpperCase()
+            .includes(String(filters.hauteurMx).trim().toUpperCase());
+
+        const matchesNature =
+          !filters.nature ||
+          String(p.nature ?? "")
+            .trim()
+            .toUpperCase()
+            .includes(String(filters.nature).trim().toUpperCase());
+
+        return (
+          matchesPrix &&
+          matchesSurface &&
+          matchesScore &&
+          matchesFacade &&
+          matchesQuartier &&
+          matchesZonage &&
+          matchesHauteur &&
+          matchesNature
+        );
+      });
+
+      setFilteredCount(filteredFeatures.length);
+
+      const getNumber = (feature, field) => {
+        const value = Number(feature.properties?.[field]);
+        return isNaN(value) ? 0 : value;
+      };
+
+      const count = filteredFeatures.length;
+
+      if (count === 0) {
+        setAnalysisStats({
+          count: 0,
+          surfaceTotal: 0,
+          surfaceAvg: 0,
+          scoreAvg: 0,
+          prixAppAvg: 0,
+          ptVAvg: 0,
+          ptZiAvg: 0,
+        });
+        return;
+      }
+
+      const surfaceTotal = filteredFeatures.reduce(
+        (sum, f) => sum + getNumber(f, "surface"),
+        0
+      );
+
+      const scoreTotal = filteredFeatures.reduce(
+        (sum, f) => sum + getNumber(f, "score_final_amc"),
+        0
+      );
+
+      const prixAppTotal = filteredFeatures.reduce(
+        (sum, f) => sum + getNumber(f, "prix_app_final"),
+        0
+      );
+
+      const ptVTotal = filteredFeatures.reduce(
+        (sum, f) => sum + getNumber(f, "pt_v_final"),
+        0
+      );
+
+      const ptZiTotal = filteredFeatures.reduce(
+        (sum, f) => sum + getNumber(f, "pt_zi_final"),
+        0
+      );
+
+      setAnalysisStats({
+        count,
+        surfaceTotal,
+        surfaceAvg: surfaceTotal / count,
+        scoreAvg: scoreTotal / count,
+        prixAppAvg: prixAppTotal / count,
+        ptVAvg: ptVTotal / count,
+        ptZiAvg: ptZiTotal / count,
+      });
+    })
+    .catch((error) => {
+      console.error("Erreur calcul analyse :", error);
+      setAnalysisStats(null);
+      setTotalCount(0);
+      setFilteredCount(0);
+    });
+}, [filters]);
+
+
+
+
+
+
 
   const [basemap, setBasemap] = useState("dark");
   const [totalCount, setTotalCount] = useState(0);
@@ -2385,6 +2584,7 @@ eventHandlers={{
 
 {layers.parcelles && (
   <WMSTileLayer
+    key={`score-amc-${parcellesCqlFilter}`}
     pane="scoreWmsPane"
     url="http://localhost:8080/geoserver/projetwebmap/wms"
     layers="projetwebmap:v_parcelles_score_amc_wms"
@@ -2397,6 +2597,9 @@ eventHandlers={{
     minZoom={12}
     maxZoom={22}
     maxNativeZoom={22}
+    params={{
+      CQL_FILTER: parcellesCqlFilter,
+    }}
   />
 )}
 
